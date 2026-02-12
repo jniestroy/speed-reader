@@ -1,16 +1,37 @@
-# React + Vite
+# Speed Reader
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web-based speed reading app using RSVP (Rapid Serial Visual Presentation) with ORP (Optimal Recognition Point) highlighting.
 
-Currently, two official plugins are available:
+## Screenshots
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Library View
+![Library View](assets/library-view.png)
 
-## React Compiler
+### Reader View
+![Reader View](assets/reader-view.png)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- Upload and read EPUB books with chapter navigation
+- Paste text for quick reading sessions
+- Adjustable speed (100-1000 WPM)
+- Smart pacing based on punctuation and word length
+- Automatic progress saving
+- ORP highlighting for faster comprehension
+- Keyboard shortcuts: `Space` (play/pause), `←/→` (step word by word)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Quick Start
+
+```bash
+npm install
+npm run dev        # Development server
+npm start          # Production build + server
+```
+
+## How It Works
+
+RSVP displays one word at a time in a fixed position, eliminating eye movement. The ORP (red letter) marks where your eye should focus for optimal recognition, enabling faster reading with better comprehension.
+
+## Tech Stack
+
+React + Vite, Express, JSZip for EPUB parsing

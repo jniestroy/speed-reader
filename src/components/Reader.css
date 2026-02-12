@@ -74,6 +74,8 @@ textarea:focus {
   justify-content: center;
   margin-bottom: 1.5rem;
   position: relative;
+  overflow: hidden;
+  font-size: 4rem;  
 }
 
 .current-word {
@@ -81,11 +83,52 @@ textarea:focus {
   font-weight: 700;
   color: #fff;
   user-select: none;
+  position: relative;
+  z-index: 1;
 }
 
 .current-word.done {
   font-size: 2rem;
   color: #e94560;
+}
+
+.orp-word {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 4rem;
+  font-weight: 700;
+  white-space: nowrap;
+  user-select: none;
+  z-index: 1;
+}
+
+.orp-before {
+  display: inline-block;
+  width: 45%;
+  text-align: right;
+  color: #fff;
+}
+
+.orp-pivot {
+  color: #e94560;
+  font-weight: 800;
+}
+
+.orp-after {
+  text-align: left;
+  color: #fff;
+}
+
+.orp-guide {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  left: 45%;
+  width: 2px;
+  background: rgba(233, 69, 96, 0.25);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .progress-bar-container {
@@ -199,10 +242,15 @@ textarea:focus {
 
   .display-area {
     height: 150px;
+    font-size: 2.5rem;
   }
 
   .current-word {
     font-size: 2.5rem;
+  }
+
+  .current-word.done {
+    font-size: 1.5rem;
   }
 
   .controls button {

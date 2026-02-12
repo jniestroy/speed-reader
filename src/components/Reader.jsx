@@ -2,6 +2,45 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { getBook, getProgress, saveProgress } from '../api'
 import './Reader.css'
 
+function getORP(word) {
+  const len = word.replace(/[^a-zA-Z0-9]/g, '').length || word.length
+  if (len <= 1) return 0
+  if (len <= 5) return 1
+  if (len <= 9) return 2
+  if (len <= 13) return 3
+  return 4
+}
+
+function getWordDelay(word, baseInterval) {
+  let multiplier = 1.0
+
+  // Punctuation pausing
+  const lastChar = word[word.length - 1]
+  if ('.!?'.includes(lastChar)) {
+    multiplier = 1.8
+  } else if (',;:'.includes(lastChar)) {
+    multiplier = 1.3
+  } else if ('—–-'.includes(lastChar) && word.length > 1) {
+    multiplier = 1.15
+  }
+
+  // Check for paragraph-ending punctuation followed by quotes
+  if (word.length > 1) {
+    const secondLast = word[word.length - 2]
+    if ('.!?'.includes(secondLast) && '"\'")'.includes(lastChar)) {
+      multiplier = 1.8
+    }
+  }
+
+  // Word length adjustment: longer words get slightly more time
+  const cleanLen = word.replace(/[^a-zA-Z0-9]/g, '').length
+  if (cleanLen >= 8) {
+    multiplier *= 1.0 + (cleanLen - 7) * 0.04 // +4% per char over 7
+  }
+
+  return baseInterval * multiplier
+}
+
 function Reader({ bookId, onBack }) {
   const [text, setText] = useState('')
   const [words, setWords] = useState([])
@@ -125,7 +164,7 @@ function Reader({ bookId, onBack }) {
     setCurrentIndex(0)
     setIsDone(false)
     setWords([])
-    clearInterval(timerRef.current)
+    clearTimeout(timerRef.current)
   }, [])
 
   const stepForward = useCallback(() => {
@@ -144,24 +183,36 @@ function Reader({ bookId, onBack }) {
     setCurrentIndex(prev => Math.max(0, prev - 1))
   }, [hasStarted])
 
-  // Timer
+  // Timer - uses setTimeout chain for variable word delays
   useEffect(() => {
-    if (isPlaying && words.length > 0) {
-      const interval = 60000 / wpm
-      timerRef.current = setInterval(() => {
-        setCurrentIndex(prev => {
-          if (prev >= words.length - 1) {
-            setIsPlaying(false)
-            setIsDone(true)
-            clearInterval(timerRef.current)
-            return prev
-          }
-          return prev + 1
-        })
-      }, interval)
+    if (!isPlaying || words.length === 0) return
+    const baseInterval = 60000 / wpm
+    let cancelled = false
+
+    function scheduleNext() {
+      setCurrentIndex(prev => {
+        if (prev >= words.length - 1) {
+          setIsPlaying(false)
+          setIsDone(true)
+          return prev
+        }
+        const nextIndex = prev + 1
+        if (!cancelled) {
+          const delay = getWordDelay(words[nextIndex], baseInterval)
+          timerRef.current = setTimeout(scheduleNext, delay)
+        }
+        return nextIndex
+      })
     }
-    return () => clearInterval(timerRef.current)
-  }, [isPlaying, wpm, words.length])
+
+    const initialDelay = getWordDelay(words[currentIndex] || '', baseInterval)
+    timerRef.current = setTimeout(scheduleNext, initialDelay)
+
+    return () => {
+      cancelled = true
+      clearTimeout(timerRef.current)
+    }
+  }, [isPlaying, wpm, words])
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -200,17 +251,29 @@ function Reader({ bookId, onBack }) {
     return 'Resume'
   }
 
-  const displayWord = () => {
-    if (loading) return 'Loading...'
-    if (!hasStarted) return 'Paste text below & hit Start'
-    if (isDone) return 'Done!'
-    return words[currentIndex] || ''
+  const renderWord = () => {
+    if (loading) return <span className="current-word done">Loading...</span>
+    if (!hasStarted) return <span className="current-word done">Paste text below & hit Start</span>
+    if (isDone) return <span className="current-word done">Done!</span>
+    const word = words[currentIndex] || ''
+    const orp = getORP(word)
+    const before = word.slice(0, orp)
+    const pivot = word[orp] || ''
+    const after = word.slice(orp + 1)
+    return (
+      <div className="orp-word">
+        <span className="orp-before">{before}</span>
+        <span className="orp-pivot">{pivot}</span>
+        <span className="orp-after">{after}</span>
+      </div>
+    )
   }
 
   if (loading) {
     return (
       <div className="reader">
         <div className="display-area">
+          <div className="orp-guide" />
           <span className="current-word done">Loading...</span>
         </div>
       </div>
@@ -254,9 +317,8 @@ function Reader({ bookId, onBack }) {
       )}
 
       <div className="display-area">
-        <span className={`current-word${isDone ? ' done' : ''}${!hasStarted ? ' done' : ''}`}>
-          {displayWord()}
-        </span>
+        <div className="orp-guide" />
+        {renderWord()}
       </div>
 
       {hasStarted && (
