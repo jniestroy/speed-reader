@@ -1,0 +1,236 @@
+.reader {
+  max-width: 700px;
+  width: 100%;
+  padding: 2rem;
+}
+
+.reader-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.reader-header h1 {
+  flex: 1;
+  text-align: center;
+  margin-bottom: 0;
+  font-size: 1.8rem;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-back {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.chapter-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.chapter-label {
+  font-size: 0.9rem;
+  color: #999;
+  min-width: 80px;
+  text-align: center;
+}
+
+.textarea-section {
+  margin-bottom: 1.5rem;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 1rem;
+  border: 2px solid #333;
+  border-radius: 8px;
+  background: #16213e;
+  color: #e0e0e0;
+  font-size: 1rem;
+  resize: vertical;
+  font-family: inherit;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #e94560;
+}
+
+.display-area {
+  background: #16213e;
+  border: 2px solid #333;
+  border-radius: 12px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.current-word {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #fff;
+  user-select: none;
+}
+
+.current-word.done {
+  font-size: 2rem;
+  color: #e94560;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 6px;
+  background: #333;
+  border-radius: 3px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #e94560;
+  border-radius: 3px;
+  transition: width 0.1s linear;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: #999;
+}
+
+.controls {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.controls button {
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-primary {
+  background: #e94560;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #c73e54;
+}
+
+.btn-primary:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #333;
+  color: #e0e0e0;
+}
+
+.btn-secondary:hover {
+  background: #444;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.speed-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.speed-control label {
+  font-size: 0.95rem;
+  color: #999;
+}
+
+.speed-control input[type="range"] {
+  width: 200px;
+  accent-color: #e94560;
+}
+
+.speed-control .wpm-value {
+  font-weight: 700;
+  color: #e94560;
+  min-width: 70px;
+}
+
+.hint {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+@media (max-width: 600px) {
+  .reader {
+    padding: 1rem;
+  }
+
+  .reader-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .display-area {
+    height: 150px;
+  }
+
+  .current-word {
+    font-size: 2.5rem;
+  }
+
+  .controls button {
+    padding: 0.9rem 2rem;
+    font-size: 1.1rem;
+    min-height: 48px;
+  }
+
+  .chapter-nav {
+    flex-wrap: wrap;
+  }
+
+  .chapter-nav button {
+    min-height: 48px;
+    flex: 1;
+  }
+
+  .speed-control {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .speed-control input[type="range"] {
+    width: 100%;
+    height: 32px;
+  }
+
+  .hint {
+    display: none;
+  }
+}

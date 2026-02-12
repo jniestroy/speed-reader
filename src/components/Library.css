@@ -1,0 +1,150 @@
+.library {
+  max-width: 700px;
+  width: 100%;
+  padding: 2rem;
+}
+
+.library h1 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+  color: #fff;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.upload-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.btn-upload {
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.error {
+  text-align: center;
+  color: #e94560;
+  margin-bottom: 1rem;
+}
+
+.loading-text,
+.empty-text {
+  text-align: center;
+  color: #666;
+  padding: 2rem 0;
+}
+
+.book-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.book-card {
+  display: flex;
+  align-items: center;
+  background: #16213e;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.book-card:hover {
+  border-color: #e94560;
+}
+
+.book-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.book-title {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-meta {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.btn-delete:hover {
+  color: #e94560;
+  background: rgba(233, 69, 96, 0.1);
+}
+
+.btn-quick {
+  display: block;
+  margin: 0 auto;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 600;
+  background: #333;
+  color: #e0e0e0;
+}
+
+.btn-quick:hover {
+  background: #444;
+}
+
+@media (max-width: 600px) {
+  .library {
+    padding: 1rem;
+  }
+
+  .btn-upload {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .book-card {
+    padding: 1rem;
+  }
+
+  .btn-delete {
+    min-width: 48px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-quick {
+    width: 100%;
+    min-height: 48px;
+  }
+}
